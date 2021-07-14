@@ -7,9 +7,9 @@ using Newtonsoft.Json;
 
 namespace LinkedInLib
 {
-    class Program
+    class MailFinder
     {
-        static async Task Main(string[] args)
+        static async Task FindMails(List<string> accountLinks)
         {
             var content = new StringContent(
                 "{\n    \"query\": {\n        \"keyword\": [\n            \"`https://www.linkedin.com/search/results/people/?geoUrn=%5B%22101282230%22%5D&keywords=dpo&network=%5B%22S%22%2C%22O%22%5D&origin=FACETED_SEARCH`\"\n        ]\n    },\n    \"start\": 1,\n    \"page_size\": 1\n}",
