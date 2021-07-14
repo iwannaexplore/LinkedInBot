@@ -43,11 +43,22 @@ namespace Linkedin
             MessageLabel.Text = $"Finding mails of {maxNumberOfAccount} accounts";
             await Task.Delay(200);
             var profiles = GetProfileInfoForEveryLink();
-
             MessageLabel.Text = $"Saving results into Excel file";
             SaveIntoExcelFile(profiles);
+            OpenResultFile();
         }
 
+        private void OpenResultFile()
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Files");
+            var directory = new DirectoryInfo(path);
+            var myFile = directory.GetFiles()
+                .OrderByDescending(f => f.LastWriteTime)
+                .First();
+            System.Diagnostics.Process.Start(myFile.DirectoryName);
+            System.Diagnostics.Process.Start(myFile.DirectoryName + $"/{myFile.Name}");
+
+        }
         private List<Profile> GetProfileInfoForEveryLink()
         {
             AccountDetailer detailer = new AccountDetailer(_accountLinks);
@@ -63,18 +74,23 @@ namespace Linkedin
 
         private void GetAccountLinks()
         {
-            InitializeDriver();
-            LogIn();
-
-            _driver.Url = linkBox.Text;
-            //https://www.linkedin.com/search/results/people/?geoUrn=%5B%22101282230%22%5D&keywords=dpo&network=%5B%22S%22%2C%22O%22%5D&origin=FACETED_SEARCH
-            do
+            try
             {
-                GetAllAccountsFromCurrentPage();
-                GoToAnotherPage();
-            } while (_accountLinks.Count < maxNumberOfAccount);
+                InitializeDriver();
+                LogIn();
 
-            _driver.Close();
+                _driver.Url = linkBox.Text;
+                //https://www.linkedin.com/search/results/people/?geoUrn=%5B%22101282230%22%5D&keywords=dpo&network=%5B%22S%22%2C%22O%22%5D&origin=FACETED_SEARCH
+                do
+                {
+                    GetAllAccountsFromCurrentPage();
+                    GoToAnotherPage();
+                } while (_accountLinks.Count < maxNumberOfAccount);
+            }
+            finally
+            {
+                _driver.Close();
+            }
         }
 
         private void GetAllAccountsFromCurrentPage()
