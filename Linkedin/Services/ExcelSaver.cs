@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Linkedin.Entities;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -26,9 +27,8 @@ namespace Linkedin.Services
                 row1.CreateCell(0).SetCellValue("Имя");
                 row1.CreateCell(1).SetCellValue("Должность");
                 row1.CreateCell(2).SetCellValue("Рабочая почта");
-                row1.CreateCell(3).SetCellValue("Личная почта");
-                row1.CreateCell(4).SetCellValue("Место работы");
-                row1.CreateCell(5).SetCellValue("Линк");
+                row1.CreateCell(3).SetCellValue("Место работы");
+                row1.CreateCell(4).SetCellValue("Линк");
 
                 for (var index = 0; index < _profiles.Count; index++)
                 {
@@ -36,8 +36,7 @@ namespace Linkedin.Services
                     IRow row2 = sheet1.CreateRow(index+1);
                     row2.CreateCell(0).SetCellValue(profile.name);
                     row2.CreateCell(1).SetCellValue(profile.current_title);
-                    row2.CreateCell(2).SetCellValue(profile.current_work_email);
-                    row2.CreateCell(3).SetCellValue(profile.current_personal_email);
+                    row2.CreateCell(2).SetCellValue(profile.Emails.FirstOrDefault()?.email);
                     row2.CreateCell(4).SetCellValue(profile.current_employer);
                     row2.CreateCell(5).SetCellValue(profile.linkedin_url);
                 }

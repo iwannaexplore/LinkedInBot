@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Linkedin.Services
 {
-   public class AccountDetailer
+    public class AccountDetailer
     {
         public AccountDetailer(List<string> accountLinks)
         {
@@ -18,7 +18,8 @@ namespace Linkedin.Services
 
         private List<string> _accountLinks;
         private List<Profile> _profiles = new List<Profile>();
-        private  void GetDetails(string url)
+
+        private void GetDetails(string url)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) =>
@@ -31,12 +32,16 @@ namespace Linkedin.Services
             client.BaseAddress = new Uri("https://api.rocketreach.co/v2/api/");
             client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            var response =  client.GetAsync("lookupProfile?api_key=7db301k3f066d34f416aa24ecf6354b7cd2c9ad&li_url="+url).Result;
+            var response = client
+                .GetAsync("lookupProfile?api_key=7db301k3f066d34f416aa24ecf6354b7cd2c9ad&li_url=" + url).Result;
 
             var result = response.Content.ReadAsStringAsync().Result;
 
             Profile profile = JsonConvert.DeserializeObject<Profile>(result);
-            _profiles.Add(profile);
+            lock (_profiles)
+            {
+                _profiles.Add(profile);
+            }
         }
 
         public List<Profile> GetDetailsForLinks()
@@ -44,9 +49,9 @@ namespace Linkedin.Services
             List<Task> tasks = new List<Task>();
             foreach (var accountLink in _accountLinks)
             {
-                var task = new Task( () =>  GetDetails(accountLink));
+                var task = new Task(() => GetDetails(accountLink));
                 task.Start();
-               tasks.Add(task);
+                tasks.Add(task);
             }
 
             Task.WaitAll(tasks.ToArray());
@@ -54,6 +59,4 @@ namespace Linkedin.Services
             return _profiles;
         }
     }
-
-
 }

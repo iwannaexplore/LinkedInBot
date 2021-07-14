@@ -10,11 +10,9 @@ namespace Linkedin.Entities
     {
         public int id { get; set; }
         public string name { get; set; }
-        public string current_work_email { get; set; }
-        public string current_personal_email { get; set; }
         public string current_employer { get; set; }
         public string current_title { get; set; }
         public string linkedin_url { get; set; }
-
+        public List<Email> Emails { get; set; }
     }
 }

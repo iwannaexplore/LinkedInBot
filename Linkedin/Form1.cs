@@ -37,13 +37,13 @@ namespace Linkedin
         private async void Start(object sender, EventArgs e)
         {
             maxNumberOfAccount = numericUpDown1.Value;
-            MessageLabel.Text = "Getting accounts.";
+            MessageLabel.Text = "Getting accounts...";
             GetAccountLinks();
 
-            MessageLabel.Text = $"Finding mails of {maxNumberOfAccount} accounts";
+            MessageLabel.Text = $"Finding mails of {maxNumberOfAccount} accounts...";
             await Task.Delay(200);
             var profiles = GetProfileInfoForEveryLink();
-            MessageLabel.Text = $"Saving results into Excel file";
+            MessageLabel.Text = $"Saving results into Excel file...";
             SaveIntoExcelFile(profiles);
             OpenResultFile();
         }
