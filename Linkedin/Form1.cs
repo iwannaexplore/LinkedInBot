@@ -30,7 +30,10 @@ namespace Linkedin
 
         private void Start(object sender, EventArgs e)
         {
-            _driver = new ChromeDriver();
+            var chromeDriverService = ChromeDriverService.CreateDefaultService();
+            chromeDriverService.HideCommandPromptWindow = true;
+            
+            _driver = new ChromeDriver(chromeDriverService, new ChromeOptions());
             _driver.Url = "https://www.linkedin.com/login";
 
             IWait<IWebDriver> wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(30.00));
@@ -44,8 +47,6 @@ namespace Linkedin
 
             var signInButton = _driver.FindElement(By.CssSelector("button[type='submit']"));
             signInButton.Click();
-
-
 
 
         }
