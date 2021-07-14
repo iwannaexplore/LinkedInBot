@@ -25,7 +25,7 @@ namespace Linkedin
         private const string UserName = "akarelin19821982@gmail.com";
         private const string Password = "RPR4J3Jjpv";
         private List<string> _accountLinks = new List<string>();
-        private int maxNumberOfAccount = 100;
+        private int maxNumberOfAccount = 3;
         List<string> DeleteMeLinks = new List<string>()
         {
             "https://www.linkedin.com/in/martina-piaszczynski-180b86b4/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAABhg9XAB2JgAzUqQrNc6WvbfC2OvrM88Z6Q",
@@ -40,24 +40,26 @@ namespace Linkedin
 
         private void Start(object sender, EventArgs e)
         {
-            MainLabel.Text = "Loading...";
-            //GetAccountLinks();
-            MainLabel.Text = $"Trying to find mails of {maxNumberOfAccount} accounts";
-            GetEmailsForEveryLink();
-            MainLabel.Text = $"Saving results into Excel file";
-            SaveIntoExcelFile();
+            MessageLabel.Text = "Getting accounts.";
+            GetAccountLinks();
+            MessageLabel.Text = $"Finding mails of {maxNumberOfAccount} accounts";
+            var profiles = GetProfileInfoForEveryLink();
+            
+            MessageLabel.Text = $"Saving results into Excel file";
+            SaveIntoExcelFile(profiles);
         }
 
-        private List<Profile> GetEmailsForEveryLink()
+        private List<Profile> GetProfileInfoForEveryLink()
         {
             AccountDetailer detailer = new AccountDetailer(DeleteMeLinks);
             var profiles = detailer.GetDetailsForLinks();
             return profiles;
         }
 
-        private void SaveIntoExcelFile()
+        private void SaveIntoExcelFile(List<Profile> profiles)
         {
-
+            var excelWorker = new ExcelSaver(profiles);
+            excelWorker.SaveIntoExcel();
         }
         private void GetAccountLinks()
         {
@@ -125,5 +127,7 @@ namespace Linkedin
         {
 
         }
+
+
     }
 }
