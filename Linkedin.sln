@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linkedin", "Linkedin\Linkedin.csproj", "{A838DF8F-1750-4A90-A839-C9358B12F4C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedInLib", "LinkedInLib\LinkedInLib.csproj", "{F9F81C0F-6AAD-4B90-9643-A63D82EE6381}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A838DF8F-1750-4A90-A839-C9358B12F4C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A838DF8F-1750-4A90-A839-C9358B12F4C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A838DF8F-1750-4A90-A839-C9358B12F4C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A838DF8F-1750-4A90-A839-C9358B12F4C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9F81C0F-6AAD-4B90-9643-A63D82EE6381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9F81C0F-6AAD-4B90-9643-A63D82EE6381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9F81C0F-6AAD-4B90-9643-A63D82EE6381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9F81C0F-6AAD-4B90-9643-A63D82EE6381}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1F2019EE-68E9-4DB1-A7D6-227D1CA75014}
+	EndGlobalSection
+EndGlobal
