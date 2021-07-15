@@ -36,7 +36,7 @@ namespace Linkedin.Services
                     IRow row2 = sheet1.CreateRow(index+1);
                     row2.CreateCell(0).SetCellValue(profile.name);
                     row2.CreateCell(1).SetCellValue(profile.current_title);
-                    row2.CreateCell(2).SetCellValue(profile.Emails.FirstOrDefault()?.email);
+                    row2.CreateCell(2).SetCellValue(profile.Emails?.FirstOrDefault()?.email);
                     row2.CreateCell(4).SetCellValue(profile.current_employer);
                     row2.CreateCell(5).SetCellValue(profile.linkedin_url);
                 }

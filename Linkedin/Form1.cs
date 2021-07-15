@@ -5,14 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Net.Http;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Linkedin.Entities;
 using Linkedin.Services;
-using Newtonsoft.Json;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
@@ -23,8 +22,6 @@ namespace Linkedin
     public partial class Form1 : Form
     {
         private IWebDriver _driver { get; set; }
-        private const string UserName = "akarelin19821982@gmail.com";
-        private const string Password = "RPR4J3Jjpv";
         private List<string> _accountLinks = new List<string>();
         private decimal maxNumberOfAccount;
 
@@ -90,6 +87,7 @@ namespace Linkedin
             finally
             {
                 _driver.Close();
+                _driver.Quit();
             }
         }
 
@@ -124,9 +122,9 @@ namespace Linkedin
                 ((IJavaScriptExecutor) _driver).ExecuteScript("return document.readyState").Equals("complete"));
 
             var emailInput = _driver.FindElement(By.Id("username"));
-            emailInput.SendKeys(UserName);
+            emailInput.SendKeys(userNameBox.Text);
             var passwordInput = _driver.FindElement(By.Id("password"));
-            passwordInput.SendKeys(Password);
+            passwordInput.SendKeys(passwordBox.Text);
 
             var signInButton = _driver.FindElement(By.CssSelector("button[type='submit']"));
             signInButton.Click();
@@ -141,6 +139,26 @@ namespace Linkedin
 
             var nextPageButton = _driver.FindElement(By.CssSelector("button[aria-label=\"Далее\"]"));
             nextPageButton.Click();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            if (checkBox.Checked)
+            {
+                userNameBox.Text = "akarelin19821982@gmail.com";
+                passwordBox.Text = "RPR4J3Jjpv";
+                userNameBox.Enabled = false;
+                passwordBox.Enabled = false;
+            }
+            else
+            {
+                userNameBox.Text = "";
+                passwordBox.Text = "";
+                userNameBox.Enabled = true;
+                passwordBox.Enabled = true;
+            }
+           
         }
     }
 }
