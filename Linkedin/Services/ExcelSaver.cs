@@ -21,7 +21,7 @@ namespace Linkedin.Services
         {
           
                 IWorkbook workbook = new XSSFWorkbook();
-                ISheet sheet1 = workbook.CreateSheet("Sheet1");
+                ISheet sheet1 = workbook.CreateSheet("Accounts");
 
                 IRow row1 = sheet1.CreateRow(0);
                 row1.CreateCell(0).SetCellValue("Имя");
