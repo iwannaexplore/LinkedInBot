@@ -25,7 +25,6 @@ namespace Linkedin
         private List<string> _accountLinks = new List<string>();
         private decimal maxNumberOfAccount;
 
-
         public Form1()
         {
             InitializeComponent();
@@ -35,14 +34,15 @@ namespace Linkedin
         {
             maxNumberOfAccount = numericUpDown1.Value;
             MessageLabel.Text = "Getting accounts...";
-            GetAccountLinks();
+            await Task.Run(GetAccountLinks);
 
-            MessageLabel.Text = $"Finding mails of {maxNumberOfAccount} accounts...";
+            MessageLabel.Text = $"Getting mails...";
             await Task.Delay(200);
-            var profiles = GetProfileInfoForEveryLink();
-            MessageLabel.Text = $"Saving results into Excel file...";
+            var profiles = await Task.Run(GetProfileInfoForEveryLink);
+            MessageLabel.Text = $"Saving into Excel file...";
             SaveIntoExcelFile(profiles);
             OpenResultFile();
+            MessageLabel.Text = $"Done!";
         }
 
         private void OpenResultFile()
@@ -54,11 +54,11 @@ namespace Linkedin
                 .First();
             System.Diagnostics.Process.Start(myFile.DirectoryName);
             System.Diagnostics.Process.Start(myFile.DirectoryName + $"/{myFile.Name}");
-
         }
+
         private List<Profile> GetProfileInfoForEveryLink()
         {
-            AccountDetailer detailer = new AccountDetailer(_accountLinks);
+            AccountDetailer detailer = new AccountDetailer(_accountLinks, rocketApiKey.Text);
             var profiles = detailer.GetDetailsForLinks();
             return profiles;
         }
@@ -107,8 +107,11 @@ namespace Linkedin
         {
             var chromeDriverService = ChromeDriverService.CreateDefaultService();
             chromeDriverService.HideCommandPromptWindow = true;
+            var options = new ChromeOptions();
+            if (silentCheckBox.Checked)
+                options.AddArgument("headless");
 
-            _driver = new ChromeDriver(chromeDriverService, new ChromeOptions());
+            _driver = new ChromeDriver(chromeDriverService, options);
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         }
 
@@ -141,24 +144,9 @@ namespace Linkedin
             nextPageButton.Click();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            var checkBox = sender as CheckBox;
-            if (checkBox.Checked)
-            {
-                userNameBox.Text = "akarelin19821982@gmail.com";
-                passwordBox.Text = "RPR4J3Jjpv";
-                userNameBox.Enabled = false;
-                passwordBox.Enabled = false;
-            }
-            else
-            {
-                userNameBox.Text = "";
-                passwordBox.Text = "";
-                userNameBox.Enabled = true;
-                passwordBox.Enabled = true;
-            }
-           
+
         }
     }
 }

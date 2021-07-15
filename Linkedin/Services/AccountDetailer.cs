@@ -11,12 +11,14 @@ namespace Linkedin.Services
 {
     public class AccountDetailer
     {
-        public AccountDetailer(List<string> accountLinks)
+        public AccountDetailer(List<string> accountLinks, string rocketApiKey)
         {
             _accountLinks = accountLinks;
+            this.rocketApiKey = rocketApiKey;
         }
-
+        static object locker = new object();
         private List<string> _accountLinks;
+        private string rocketApiKey;
         private List<Profile> _profiles = new List<Profile>();
 
         private void GetDetails(string url)
@@ -33,15 +35,16 @@ namespace Linkedin.Services
             client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             var response = client
-                .GetAsync("lookupProfile?api_key=7db301k3f066d34f416aa24ecf6354b7cd2c9ad&li_url=" + url).Result;
+                .GetAsync($"lookupProfile?api_key={rocketApiKey}&li_url=" + url).Result;
 
             var result = response.Content.ReadAsStringAsync().Result;
 
             Profile profile = JsonConvert.DeserializeObject<Profile>(result);
-            lock (_profiles)
+            if (profile?.current_title == null)
             {
-                _profiles.Add(profile);
+                profile.name = "Not available, get more contacts";
             }
+            _profiles.Add(profile);
         }
 
         public List<Profile> GetDetailsForLinks()
