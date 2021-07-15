@@ -17,7 +17,7 @@ namespace Linkedin.Services
         }
 
         private List<Profile> _profiles;
-        public void SaveIntoExcel()
+        public  void SaveIntoExcel()
         {
           
                 IWorkbook workbook = new XSSFWorkbook();
@@ -37,8 +37,8 @@ namespace Linkedin.Services
                     row2.CreateCell(0).SetCellValue(profile.name);
                     row2.CreateCell(1).SetCellValue(profile.current_title);
                     row2.CreateCell(2).SetCellValue(profile.Emails?.FirstOrDefault()?.email);
-                    row2.CreateCell(4).SetCellValue(profile.current_employer);
-                    row2.CreateCell(5).SetCellValue(profile.linkedin_url);
+                    row2.CreateCell(3).SetCellValue(profile.current_employer);
+                    row2.CreateCell(4).SetCellValue(profile.linkedin_url);
                 }
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "Files");
                 Directory.CreateDirectory(path);
