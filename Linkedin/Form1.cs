@@ -58,15 +58,15 @@ namespace Linkedin
 
         private List<Profile> GetProfileInfoForEveryLink()
         {
-            AccountDetailer detailer = new AccountDetailer(_accountLinks, rocketApiKey.Text);
-            var profiles = detailer.GetDetailsForLinks();
+            AccountDetailer detailer = new AccountDetailer(rocketApiKey.Text);
+            var profiles = detailer.GetDetailsForLinks(_accountLinks);
             return profiles;
         }
 
         private void SaveIntoExcelFile(List<Profile> profiles)
         {
-            var excelWorker = new ExcelSaver(profiles);
-            excelWorker.SaveIntoExcel();
+            var excelWorker = new ExcelWorker();
+            excelWorker.SaveIntoExcel(profiles);
         }
 
         private void GetAccountLinks()
@@ -147,6 +147,12 @@ namespace Linkedin
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void findFromFileToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FindFromFileForm form = new FindFromFileForm();
+            form.ShowDialog();
         }
     }
 }
